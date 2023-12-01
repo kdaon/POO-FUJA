@@ -2,13 +2,15 @@ public class Item  {
     private String nome;
     private String descricao;
     private boolean carregavel;
+    private int peso;
     //String caminho;
 
-    public Item(String nome, String descricao, String caminho, boolean carregavel) {
+    public Item(String nome, String descricao, String caminho, boolean carregavel,int peso) {
        //super(caminho);
         this.nome = nome;
         this.descricao = descricao;
         this.carregavel = carregavel;
+        this.peso= peso;
         //this.caminho= caminho;
     }
 
@@ -23,6 +25,10 @@ public class Item  {
 
     public String getDescricao() {
         return descricao;
+    }
+
+    public int getPeso(){
+        return peso;
     }
 
     // retorna se o objeto é carregavel
