@@ -7,14 +7,14 @@ public class Item  {
     private String nome;
     private String descricao;
     private boolean carregavel;
-    private int peso;
+    
 
     public Item(String nome, String descricao, String caminho, boolean carregavel,int peso) {
     
         this.nome = nome;
         this.descricao = descricao;
         this.carregavel = carregavel;
-        this.peso= peso;
+        
         
     }
 
@@ -31,9 +31,7 @@ public class Item  {
         return descricao;
     }
 
-    public int getPeso(){
-        return peso;
-    }
+  
 
     // retorna se o objeto é carregavel
     public boolean carregavel() {
