@@ -3,15 +3,14 @@ public class Item  {
     private String descricao;
     private boolean carregavel;
     private int peso;
-    //String caminho;
 
     public Item(String nome, String descricao, String caminho, boolean carregavel,int peso) {
-       //super(caminho);
+    
         this.nome = nome;
         this.descricao = descricao;
         this.carregavel = carregavel;
         this.peso= peso;
-        //this.caminho= caminho;
+        
     }
 
     public boolean chave() {
