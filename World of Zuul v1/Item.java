@@ -1,6 +1,7 @@
 /**
- * Classe Item é uma classe generica que representa os objetos contidos no jogo
+ * Classe Item  representa os objetos contidos no jogo
  * Como arma, taco e kit medico 
+ * @author Gabriela
 **/
 
 public class Item  {
@@ -9,7 +10,7 @@ public class Item  {
     private boolean carregavel;
     
 
-    public Item(String nome, String descricao, String caminho, boolean carregavel,int peso) {
+    public Item(String nome, String descricao, boolean carregavel) {
     
         this.nome = nome;
         this.descricao = descricao;

@@ -37,6 +37,11 @@ public class Jogo
     {
         Ambiente quarto, corredor, corredor2, banheiro, copa, cozinha, sala, garagem, hall, saida;
       
+        // cria os itens
+        Item kitMedico = new Item("Kit Medico","Pose ser utilizado para salvar", false);
+        Item chave = new Item("chave","Chave que pode ser utilizada para abrir as portas", false);
+        Item taco = new Item("Taco de basebol","Pode ser utlizado para atacar os inmigos", false);
+        Item pistola = new Item("Pistola","Pode ser utilizada para combater o inimigo",true);
         // cria os ambientes
         quarto = new Ambiente("no quarto.");
         corredor = new Ambiente("no corredor principal.");
