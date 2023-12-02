@@ -1,4 +1,7 @@
-
+/* 
+ * A classe Personagem representa o jogador do jogo.
+ * A classe Personagem tem atributos estáticos que pertencem à classe como um todo.
+*/
 public class Personagem {
     private static String nome;
     private static int vida;

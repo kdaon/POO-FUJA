@@ -1,3 +1,8 @@
+/* 
+ * A classe Zumbi representa o mostro do jogo o qual pode ser atacado pelo personagem do jogo ou
+ * o Zumbi pode atacar o personagem
+*/
+
 public class Zumbi {
     private String nome;
     private int forca;
@@ -11,7 +16,7 @@ public class Zumbi {
     }
 
     public String getDescricaoMonstro(){
-        String descricaoZumbi = "O zumbi se acha  "+nome+" tem forca "+forca+" e total de vida e "+vida;
+        String descricaoZumbi = "O zumbi se chama  "+nome+" tem forca "+forca+" e total de vida e "+vida;
         return descricaoZumbi;
     }
 

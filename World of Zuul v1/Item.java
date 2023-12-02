@@ -1,3 +1,8 @@
+/**
+ * Classe Item é uma classe generica que representa os objetos contidos no jogo
+ * Como arma, taco e kit medico 
+**/
+
 public class Item  {
     private String nome;
     private String descricao;
