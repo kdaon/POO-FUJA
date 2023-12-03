@@ -2,9 +2,7 @@
 /**
  *  Essa classe cria e inicializa todas as demais classes do jogo, e foi feita com base no codigo base do jogo World of Zuul, de  Michael Kölling and David J. Barnes (traduzido por Julio Cesar Alves)
  *  
- * Observação sobre a classe insereQtdMovimentosArq: deve ser passado na variavel caminho o caminho onde se deseja criar o arquivo na maquina que esta rodando o jogo
- * 
- * @author  Alexandra Melo, 
+ * @author  Alexandra Melo, Gabriela Memento
  * 
  */
 import java.util.Scanner;

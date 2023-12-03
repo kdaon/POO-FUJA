@@ -1,7 +1,7 @@
 /**
  * A classe Item representa um objeto ou ferramenta que pode ser usado no jogo.
  * Cada item possui um nome e uma descrição.
- * @author Gabriela
+ * @author Gabriela Memento
  */
 
 public class Item extends ObjetoDoJogo {

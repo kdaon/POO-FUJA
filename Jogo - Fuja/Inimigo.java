@@ -1,6 +1,7 @@
 /**
  * A classe Inimigo representa um adversário no jogo.
  * Cada inimigo possui um nome, descrição e um item necessário para derrotá-lo.
+ * @author Gabriela Memento
  */
 
 public class Inimigo extends ObjetoDoJogo {
