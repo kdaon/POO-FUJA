@@ -6,4 +6,5 @@
 ### Prévia dos Locais de Itens [provisório]
 <img src="/Documentos/Locais de Itens.png">
 
-link para editar: https://app.diagrams.net/#G1e9tjZEsUigcOZVpqQ-mrTyQntj2Z829i
+link para editar: 
+https://drive.google.com/file/d/1ie2W-W6xrCHz71vNknMtjiz8_a_MfC-m/view?usp=sharing
