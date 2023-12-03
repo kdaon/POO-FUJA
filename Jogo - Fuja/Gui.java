@@ -50,7 +50,7 @@ public class Gui implements ActionListener {
         painelInferior = new JPanel();
 
         ImageIcon imagemAmb = new ImageIcon(
-                "/Users/alexandramelo/Documents/interface-grafica-PPOO/interface/src/imagens/quarto.jpeg");
+                "Jogo - Fuja/mapa-jogo.png");
         rotuloImagemMapa = new JLabel(
                 new ImageIcon(redimesionaImagem(imagemAmb)),
                 SwingConstants.CENTER);
@@ -222,23 +222,6 @@ public class Gui implements ActionListener {
 
     /*
      * 
-     * Esse metodo recebe o ambiente em que o jogador esta e retorna a imagem
-     * correspondente
-     * 
-     * 
-     */
-    public void ambienteMudou(String amb) {
-
-        ImageIcon img = new ImageIcon(
-                "Users/alexandramelo/Documents/interface-grafica-PPOO/interface/src/imagens/banheiro.jpeg");
-        rotuloImagemMapa.setIcon(new ImageIcon(redimesionaImagem(img)));
-
-        painelAmbiente.revalidate();
-        painelAmbiente.repaint();
-    }
-
-    /*
-     * 
      * Esse metodo exibe a janela do jogo e a força a continuar aberta para que o
      * jogo nao se encerre inesperadamente
      * 
@@ -259,8 +242,13 @@ public class Gui implements ActionListener {
         }
     }
 
+    /*
+     * 
+     * Esse metodo redimensiona a imagem do ambiente do jogo
+     * 
+     */
     public Image redimesionaImagem(ImageIcon ambiente) {
-        return ambiente.getImage().getScaledInstance(600, 300, Image.SCALE_SMOOTH);
+        return ambiente.getImage().getScaledInstance(700, 300, Image.SCALE_SMOOTH);
     }
 
 }
