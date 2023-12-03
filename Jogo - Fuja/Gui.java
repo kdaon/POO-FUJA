@@ -1,3 +1,4 @@
+
 /**
  * A classe Gui é responsável por criar e controlar a interface gráfica do jogo.
  * Ela utiliza componentes Swing para criar uma janela com áreas de texto, input de comandos,
@@ -5,13 +6,11 @@
  * Implementa a interface ActionListener para lidar com eventos de ação, como clicar no botão "OK".
  * @author Alexandra Melo
  */
-
-import java.util.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
 
 public class Gui implements ActionListener {
     private JFrame janela; // frame para criar a janela do jogo
@@ -29,36 +28,47 @@ public class Gui implements ActionListener {
     private String ultimoComando = "";
     // private int movimentos;
 
-    // construtor inicializa todos os atributos da GUI
+    /*
+     * 
+     * O Construtor da classe Gui inicializa os atributos e define suas propriedades
+     * iniciais
+     * 
+     */
     public Gui() {
         janela = new JFrame("Jogo - Fuja!");
         areaMensagens = new JTextArea();
         areaMensagens.setEditable(false);
+
         campoEntrada = new JTextField();
+
         areaMovimentos = new JTextArea();
         areaMovimentos.setEditable(false);
+
         painelAmbiente = new JPanel();
         painelInteracao = new JPanel();
         painelMovimentos = new JPanel();
         painelInferior = new JPanel();
+
         ImageIcon imagemAmb = new ImageIcon(
                 "/Users/alexandramelo/Documents/interface-grafica-PPOO/interface/src/imagens/quarto.jpeg");
         rotuloImagemMapa = new JLabel(
                 new ImageIcon(redimesionaImagem(imagemAmb)),
-                SwingConstants.CENTER); // inicializado
-        // com a
-        // imagem do
-        // quarto
-        // pois o jogo comeca no quarto
+                SwingConstants.CENTER);
+
         botaoConfirmar = new JButton("OK");
         botaoConfirmar.addActionListener(this);
 
         montarJanela();
     }
 
-    // monta a janela do jogo
+    /*
+     * 
+     * Esse metodo define o tamanho da janela do jogo e adiciona seus componentes a
+     * tela
+     * 
+     */
     public void montarJanela() {
-        janela.setSize(800, 700);
+        janela.setSize(1200, 700);
         janela.setLayout(new BorderLayout());
 
         criaPainelAmbiente();
@@ -72,14 +82,24 @@ public class Gui implements ActionListener {
         janela.pack();
     }
 
-    // cria painel de ambiente
+    /*
+     * 
+     * Esse metodo cria o painel de AMBIENTE, responsavel por exibir a imagem do
+     * ambiente atualizada com a marcacao de onde o personagem está
+     * 
+     */
     public void criaPainelAmbiente() {
         painelAmbiente.setPreferredSize(new Dimension(620, 300));
         painelAmbiente.setLayout(new BoxLayout(painelAmbiente, BoxLayout.Y_AXIS));
         painelAmbiente.add(rotuloImagemMapa);
     }
 
-    // cria separadamente o painel de interacao
+    /*
+     * Esse metodo cria o painel de INTERACAO DO USUARIO, que é responsavel por
+     * exibir as mensagens do jogo e pegar os dados de comando digitados pelo
+     * usuario
+     * 
+     */
     public void criaPainelInteracao() {
         painelInteracao.setPreferredSize(new Dimension(550, 400));
         painelInteracao.setLayout(new BoxLayout(painelInteracao, BoxLayout.Y_AXIS));
@@ -91,14 +111,24 @@ public class Gui implements ActionListener {
         painelInteracao.add(botaoConfirmar);
     }
 
-    // cria separadamente o painel de movimentos
+    /*
+     * 
+     * Esse metodo cria o painel de MOVIMENTOS RESTANTES, responsavel por mostrar ao
+     * usuario a quantidade de movimentos restantes que ele possui
+     * 
+     */
     public void criaPainelMovimentos() {
-        painelMovimentos.setPreferredSize(new Dimension(100, 400));
+        painelMovimentos.setPreferredSize(new Dimension(150, 400));
         painelMovimentos.setLayout(new BoxLayout(painelMovimentos, BoxLayout.Y_AXIS));
         painelMovimentos.add(areaMovimentos);
     }
 
-    // cria o painel inferior unindo o painel de movimentos e painel de interacao
+    /*
+     * 
+     * Esse metodo cria o painel INFERIOR, que contem os paineis de INTERACAO e
+     * MOVIMENTOS, para que ambos fiquem juntos na parte sul da janela
+     * 
+     */
     public void criaPainelInferior() {
         painelInferior.setPreferredSize(new Dimension(680, 400));
         painelInferior.setLayout(new BoxLayout(painelInferior, BoxLayout.X_AXIS));
@@ -108,26 +138,95 @@ public class Gui implements ActionListener {
         painelInferior.add(painelMovimentos);
     }
 
-    // trata o clique no botao 'OK'
+    /*
+     * 
+     * Esse metodo sobrescreve o metodo actionPerformed responsavel por tratar o
+     * clique feito em um botao. Nesse caso, ao clicar no botao, a funcao realizar
+     * um set no valor do atributo ultimo comando com o novo comando que foi
+     * digitado pelo usuario
+     * 
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String ultimoComando = campoEntrada.getText();
         campoEntrada.setText("");
     }
 
-    // retorna o ultimo comando
+    /*
+     * 
+     * Esse metodo retorna o valor do atributo ultimo comando, sendo o valor dele
+     * igual ao ultimo comando enviado pelo usuario
+     * 
+     */
     public String getUltimoComando() {
         return ultimoComando;
     }
 
-    // passa uma nova mensagem para ser exibida na tela
+    /*
+     * 
+     * Esse metodo altera a mensagem do jogo que é exibida pelo usuario
+     * 
+     */
     public void setMensagem(String msg) {
-        areaMensagens.setText(msg);
+        areaMensagens.setText("teste :" + msg);
         areaMensagens.repaint();
         areaMensagens.setCaretPosition(areaMensagens.getDocument().getLength());
     }
 
-    // muda a imagem do ambiente de acordo com o comando do usuario
+    /*
+     * 
+     * Esse metodo realiza a leitura do arquivo texto que guarda a quantidade de
+     * movimentos restantes que o usuario possui
+     * 
+     */
+    public String leArquivoMovimentos() {
+        BufferedReader arq = null;
+        String conteudo = "";
+
+        try {
+            arq = new BufferedReader(new FileReader(
+                    "/Users/alexandramelo/Documents/interface-grafica-PPOO/interface/src/movimentos.txt"));
+            conteudo = arq.readLine();
+
+            if (conteudo.equals("")) {
+                conteudo = "";
+            }
+
+        } catch (IOException e) {
+            System.out.println("Erro na leitura do arquivo");
+        } finally {
+            if (arq != null) {
+                try {
+                    arq.close();
+
+                } catch (IOException e) {
+                    System.err.println(e.getMessage());
+
+                }
+            }
+        }
+
+        return conteudo;
+
+    }
+
+    /*
+     * 
+     * Esse metodo modifica o valor da quantidade de movimentos restantes do jogador
+     * que é exibida na tela
+     * 
+     */
+    public void setQtdMovimentos() {
+        areaMovimentos.setText("Movimentos restantes: \n" + leArquivoMovimentos());
+    }
+
+    /*
+     * 
+     * Esse metodo recebe o ambiente em que o jogador esta e retorna a imagem
+     * correspondente
+     * 
+     * 
+     */
     public void ambienteMudou(String amb) {
 
         ImageIcon img = new ImageIcon(
@@ -138,6 +237,12 @@ public class Gui implements ActionListener {
         painelAmbiente.repaint();
     }
 
+    /*
+     * 
+     * Esse metodo exibe a janela do jogo e a força a continuar aberta para que o
+     * jogo nao se encerre inesperadamente
+     * 
+     */
     public void exibir() {
         // força a janela a ficar aberta
         SwingUtilities.invokeLater(() -> {
