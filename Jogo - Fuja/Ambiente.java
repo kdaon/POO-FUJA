@@ -12,63 +12,60 @@
  * 
  * @author  Michael Kölling and David J. Barnes (traduzido por Julio Cesar Alves)
  * @version 2011.07.31 (2016.02.01)
- * /**
- * A classe Ambiente representa uma localização no jogo, contendo informações sobre a descrição do ambiente,
- * suas saídas para outras áreas, a presença de inimigos, itens e se está trancado ou não.
  */
- 
-
-
-
- // método ajustarSaidas
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class Ambiente {
+ public class Ambiente {
+
+    private HashMap<String, Ambiente> saidas;
     public String descricao;
-    public Ambiente saidaNorte;
-    public Ambiente saidaSul;
-    public Ambiente saidaLeste;
-    public Ambiente saidaOeste;
+    
     private boolean ambienteTrancado;
     private String chave;
-
     private ArrayList<Inimigo> inimigos;
     private Item item;
 
     /**
-     * Cria um novo ambiente com a descrição fornecida.
-     *
-     * @param descricao A descrição do ambiente.
+     * Cria um ambiente com a "descricao" passada. Inicialmente, ele
+     * nao tem saidas. "descricao" eh algo como "uma cozinha" ou
+     * "
+     * Create a room described "description". Initially, it has
+     * no exits. "description" is something like "a kitchen" or
+     * "um jardim aberto".
+     * @param descricao A descricao do ambiente.
      */
-
     public Ambiente(String descricao) {
+        
         this.inimigos = new ArrayList<>();
         this.descricao = descricao;
         this.ambienteTrancado = false;
         this.chave = "";
+        saidas = new HashMap<String, Ambiente>();
+
     }
+
+    public Ambiente getSaida(String direcao) {
+        return saidas.get(direcao);
+    }
+
     /**
-     * Define as saídas deste ambiente para outras áreas.
-     *
-     * @param saidas Ambientes vizinhos para as direções norte, leste, sul e oeste.
+     * Define as saidas do ambiente. Cada direcao ou leva a um
+     * outro ambiente ou eh null (nenhuma saida para la).
+     * @param norte A saida norte.
+     * @param leste A saida leste.
+     * @param sul A saida sul.
+     * @param oeste A saida oeste.
      */
-
-    public void ajustarSaidas(Ambiente... saidas) {
-        if (saidas.length >= 1) {
-            saidaNorte = saidas[0];
-        }
-        if (saidas.length >= 2) {
-            saidaLeste = saidas[1];
-        }
-        if (saidas.length >= 3) {
-            saidaSul = saidas[2];
-        }
-        if (saidas.length >= 4) {
-            saidaOeste = saidas[3];
-        }
+    public void ajustarSaidas(String direcao, Ambiente ambiente) {
+        saidas.put(direcao, ambiente);
     }
 
-    public String getDescricao() {
+    /**
+     * @return A descricao do ambiente.
+     */
+    public String getDescricao()
+    {
         return descricao;
     }
 
@@ -76,10 +73,11 @@ public class Ambiente {
         if (inimigos.size() == 0) {
             return null;
         }
-        return inimigos.get(0);
+        return inimigos.get(0);  // Retorna o primeiro inimigo da lista (assumindo apenas um inimigo por ambiente)
     }
-
+    
     public void removerInimigo(Inimigo inimigo) {
+        // Lógica para remover o inimigo do ambiente
         this.inimigos = new ArrayList<>();
     }
 
@@ -110,26 +108,13 @@ public class Ambiente {
             System.out.println("O ambiente foi destrancado.");
         }
     }
-     // Métodos para manipulação de inimigos, itens e travamento do ambiente...
-
-    /**
-     * Verifica se o ambiente está trancado.
-     *
-     * @return true se o ambiente está trancado, caso contrário, false.
-     */
 
     public boolean estaTrancado() {
         return this.ambienteTrancado;
     }
 
-    /**
-     * Obtém a chave usada para trancar o ambiente.
-     *
-     * @return A chave usada para trancar o ambiente.
-     */
-
     public String getChave() {
         return chave;
     }
-}
 
+}

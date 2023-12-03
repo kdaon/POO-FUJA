@@ -65,33 +65,51 @@ public class Jogo
         hall = new Ambiente("no hall e enxerga a saída.");
         saida = new Ambiente("na saída.");
         
+        // adiciona os inimigos nos ambientes
         copa.adicionarInimigo(zumbiCopa);
         sala.adicionarInimigo(zumbiSala);
         hall.adicionarInimigo(zumbiHall);
 
+        // coloca os itens nos ambientes
         quarto.adicionarItem(taco);
         cozinha.adicionarItem(faca);
         garagem.adicionarItem(arma);
         banheiro.adicionarItem(chave);
 
+        // trancar ambientes
         cozinha.trancarAmbiente("Chave da cozinha");
 
         // inicializa as saidas dos ambientes
-        quarto.ajustarSaidas(corredor, corredor2, null, null);
-        corredor.ajustarSaidas(null, copa, quarto, banheiro);
-        corredor2.ajustarSaidas(cozinha, null, null, quarto);
-        banheiro.ajustarSaidas(null, corredor, null, null);
-        copa.ajustarSaidas(null, cozinha, null, corredor);
-        cozinha.ajustarSaidas(null, sala, corredor2, copa);
-        sala.ajustarSaidas(garagem, null, hall, cozinha);
-        garagem.ajustarSaidas(null, null, sala, null);
-        hall.ajustarSaidas(sala, saida, null, null);
-        saida.ajustarSaidas(null, null, null, hall);
-        
+        quarto.ajustarSaidas("norte", corredor);
+        quarto.ajustarSaidas("leste", corredor2);
 
+        corredor.ajustarSaidas("leste", copa);
+        corredor.ajustarSaidas("sul", quarto);
+        corredor.ajustarSaidas("oeste", banheiro);
+
+        banheiro.ajustarSaidas("leste", corredor);
+
+        copa.ajustarSaidas("leste", cozinha);
+        copa.ajustarSaidas("oeste", corredor);
+
+        cozinha.ajustarSaidas("leste", sala);
+        cozinha.ajustarSaidas("sul", corredor2);
+        cozinha.ajustarSaidas("oeste", copa);
+
+        corredor2.ajustarSaidas("norte", cozinha);
+        corredor2.ajustarSaidas("oeste", quarto);
+
+        sala.ajustarSaidas("norte", garagem);
+        sala.ajustarSaidas("sul", hall);
+        sala.ajustarSaidas("oeste", cozinha);
+
+        garagem.ajustarSaidas("sul", sala);
+
+        hall.ajustarSaidas("norte", sala);
+        hall.ajustarSaidas("leste", saida);
+        
         ambienteAtual = quarto;  // o jogo comeca no quarto
     }
-    
 
     /**
      *  Rotina principal do jogo. Fica em loop ate terminar o jogo.
@@ -222,24 +240,11 @@ public class Jogo
         String direcao = comando.getSegundaPalavra();
 
         // Tenta sair do ambiente atual
-        Ambiente proximoAmbiente = null;
-        if(direcao.equals("norte")) {
-            proximoAmbiente = ambienteAtual.saidaNorte;
-        }
-        if(direcao.equals("leste")) {
-            proximoAmbiente = ambienteAtual.saidaLeste;
-        }
-        if(direcao.equals("sul")) {
-            proximoAmbiente = ambienteAtual.saidaSul;
-        }
-        if(direcao.equals("oeste")) {
-            proximoAmbiente = ambienteAtual.saidaOeste;
-        }
+        Ambiente proximoAmbiente = ambienteAtual.getSaida(direcao);
 
         if (proximoAmbiente == null) {
             System.out.println("Não há passagem!");
-        }
-        else {
+        } else {
             if (proximoAmbiente.getInimigo() != null) {
                 Inimigo inimigoAtual = proximoAmbiente.getInimigo();
                 if(personagem.possuiItem(inimigoAtual.getItemDerrotar())){
@@ -279,16 +284,16 @@ public class Jogo
         System.out.println("Você está " + ambienteAtual.getDescricao());
             
             System.out.print("Saidas: ");
-            if(ambienteAtual.saidaNorte != null) {
+            if(ambienteAtual.getSaida("norte") != null) {
                 System.out.print("norte ");
             }
-            if(ambienteAtual.saidaLeste != null) {
+            if(ambienteAtual.getSaida("leste")!= null) {
                 System.out.print("leste ");
             }
-            if(ambienteAtual.saidaSul != null) {
+            if(ambienteAtual.getSaida("sul") != null) {
                 System.out.print("sul ");
             }
-            if(ambienteAtual.saidaOeste != null) {
+            if(ambienteAtual.getSaida("oeste") != null) {
                 System.out.print("oeste ");
             }
             System.out.println();
@@ -358,23 +363,22 @@ public class Jogo
 
         for (Item item : personagem.getInventario()) {
             if (item.getNome().equals(nomeItem)) {
-                if (ambienteAtual.saidaNorte != null) {
-                    ambienteAtual.saidaNorte.destrancarAmbiente(nomeItem);
+                if (ambienteAtual.getSaida("norte") != null) {
+                    ambienteAtual.getSaida("norte").destrancarAmbiente(nomeItem);
                 }
-                if (ambienteAtual.saidaLeste != null) {
-                    ambienteAtual.saidaLeste.destrancarAmbiente(nomeItem);
+                if (ambienteAtual.getSaida("leste") != null) {
+                    ambienteAtual.getSaida("leste").destrancarAmbiente(nomeItem);
                 }
-                if (ambienteAtual.saidaSul != null) {
-                    ambienteAtual.saidaSul.destrancarAmbiente(nomeItem);
+                if (ambienteAtual.getSaida("sul") != null) {
+                    ambienteAtual.getSaida("sul").destrancarAmbiente(nomeItem);
                 }
-                if (ambienteAtual.saidaOeste != null) {
-                    ambienteAtual.saidaOeste.destrancarAmbiente(nomeItem);
+                if (ambienteAtual.getSaida("oeste") != null) {
+                    ambienteAtual.getSaida("oeste").destrancarAmbiente(nomeItem);
                 }
 
                 // Remover o item do inventário após ser utilizado
-                personagem.removerItem(item);
-
                 System.out.println("Você usou a " + nomeItem + " para destrancar o ambiente.");
+                personagem.removerItem(item);
                 descricaoAmbiente();
                 return;
             }
