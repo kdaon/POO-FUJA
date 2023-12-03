@@ -4,29 +4,20 @@
  * @author Gabriela
  */
 
-public class Item {
-    private String nome;
-    private String descricao;
+public class Item extends ObjetoDoJogo {
 
     public Item(String nome, String descricao) {
-        this.nome = nome;
-        this.descricao = descricao;
+        super(nome, descricao);
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
 
     /**
      * Método que simula o uso do item, exibindo uma mensagem informando o nome do item usado.
      */
     
     public void usar() {
-        System.out.println("Você usou o item: " + nome);
+        System.out.println("Você usou o item: " + getNome());
     }
 
 }
+
