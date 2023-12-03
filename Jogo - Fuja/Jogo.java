@@ -69,8 +69,8 @@ public class Jogo
 
         ambienteAtual = quarto;  // o jogo comeca do lado de quarto
     }
-    
-
+    // cria o inimigo
+    Personagem mostro = new Inimigo("Mostros", "Mostros são criaturas  que atacam", 70, 8);
     /**
      *  Rotina principal do jogo. Fica em loop ate terminar o jogo.
      */
