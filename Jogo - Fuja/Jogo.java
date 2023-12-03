@@ -20,14 +20,19 @@ public class Jogo
 {
     private Analisador analisador;
     private Ambiente ambienteAtual;
+    private Personagem personagem;
+
     private int nivelDificuldade;
+    private boolean ambienteSeguro;
         
     /**
      * Cria o jogo e incializa seu mapa interno.
      */
     public Jogo() {
         criarAmbientes();
+        ambienteSeguro = true;
         analisador = new Analisador();
+        personagem = new Personagem();
     }
 
     /**
@@ -38,10 +43,16 @@ public class Jogo
         Ambiente quarto, corredor, corredor2, banheiro, copa, cozinha, sala, garagem, hall, saida;
       
         // cria os itens
-        Item kitMedico = new Item("Kit Medico","Pose ser utilizado para salvar", false);
-        Item chave = new Item("chave","Chave que pode ser utilizada para abrir as portas", false);
-        Item taco = new Item("Taco de basebol","Pode ser utlizado para atacar os inmigos", false);
-        Item pistola = new Item("Pistola","Pode ser utilizada para combater o inimigo",true);
+        Item taco = new Item("Taco de Beisebol", "Pode ser utilizado para atacar inimigos.");
+        Item faca = new Item("Faca", "Pode ser utilizado para atacar inimigos.");
+        Item arma = new Item("Arma", "Pode ser utilizado para atacar inimigos.");
+        Item chave = new Item("Chave da cozinha", "Pode ser usada para destrancar a cozinha.");
+        
+        // cria os inimigos
+        Inimigo zumbiCopa = new Inimigo("Zumbi da Copa", "Parece que não tem outra alternativa a não ser utilizar um taco", taco);
+        Inimigo zumbiSala = new Inimigo("Zumbi da Sala", "Esse zumbi parece frágil, um objeto afiado pode ser útil", faca);
+        Inimigo zumbiHall = new Inimigo("Zumbi do Hall", "Zumbi muito forte, parece que só pode ser derrotado por uma arma de fogo", arma);
+
         // cria os ambientes
         quarto = new Ambiente("no quarto.");
         corredor = new Ambiente("no corredor principal.");
@@ -54,6 +65,17 @@ public class Jogo
         hall = new Ambiente("no hall e enxerga a saída.");
         saida = new Ambiente("na saída.");
         
+        copa.adicionarInimigo(zumbiCopa);
+        sala.adicionarInimigo(zumbiSala);
+        hall.adicionarInimigo(zumbiHall);
+
+        quarto.adicionarItem(taco);
+        cozinha.adicionarItem(faca);
+        garagem.adicionarItem(arma);
+        banheiro.adicionarItem(chave);
+
+        cozinha.trancarAmbiente("Chave da cozinha");
+
         // inicializa as saidas dos ambientes
         quarto.ajustarSaidas(corredor, corredor2, null, null);
         corredor.ajustarSaidas(null, copa, quarto, banheiro);
@@ -67,10 +89,10 @@ public class Jogo
         saida.ajustarSaidas(null, null, null, hall);
         
 
-        ambienteAtual = quarto;  // o jogo comeca do lado de quarto
+        ambienteAtual = quarto;  // o jogo comeca no quarto
     }
-    // cria o inimigo
-    Personagem mostro = new Inimigo("Mostros", "Mostros são criaturas  que atacam", 70, 8);
+    
+
     /**
      *  Rotina principal do jogo. Fica em loop ate terminar o jogo.
      */
@@ -144,10 +166,26 @@ public class Jogo
             imprimirAjuda();
         }
         else if (palavraDeComando.equals("ir")) {
-            irParaAmbiente(comando);
+            if(ambienteSeguro){
+                irParaAmbiente(comando);
+            }else{
+                    Inimigo inimigoAtual = ambienteAtual.getInimigo();
+                    System.out.println("Você precisa derrotar todos os inimigos antes de prosseguir!");
+                    System.out.println("Você encontrou um " + inimigoAtual.getNome() + ". Você pode derrotá-lo com: " + inimigoAtual.getItemDerrotar().getNome() + "!");
+                    System.out.println("atacar");
+            }
         }
         else if (palavraDeComando.equals("sair")) {
             querSair = sair(comando);
+        }
+        else if (palavraDeComando.equals("pegar")) {
+            pegarItem();
+        }
+        else if (palavraDeComando.equals("atacar")) {
+            lidarComInimigos();
+        }
+        else if (palavraDeComando.equals("usar")) {
+            usarItem();
         }
 
         return querSair;
@@ -166,7 +204,7 @@ public class Jogo
         System.out.println("Hora de tomar uma decisão!.");
         System.out.println();
         System.out.println("Suas palavras de comando são:");
-        System.out.println("   ir sair ajuda");
+        System.out.println("   ir sair ajuda atacar pegar");
     }
 
     /** 
@@ -180,7 +218,7 @@ public class Jogo
             System.out.println("Ir pra onde?");
             return;
         }
-
+        
         String direcao = comando.getSegundaPalavra();
 
         // Tenta sair do ambiente atual
@@ -202,19 +240,40 @@ public class Jogo
             System.out.println("Não há passagem!");
         }
         else {
-            ambienteAtual = proximoAmbiente;
+            if (proximoAmbiente.getInimigo() != null) {
+                Inimigo inimigoAtual = proximoAmbiente.getInimigo();
+                if(personagem.possuiItem(inimigoAtual.getItemDerrotar())){
+                    ambienteAtual = proximoAmbiente;
+                    ambienteSeguro = false;
+                    System.out.println("Você encontra um " + inimigoAtual.getNome() + ". Você pode derrotá-lo com: " + inimigoAtual.getItemDerrotar().getNome() + "!");
+                    System.out.println("atacar");
+                }else{
+                    if (inimigoAtual != null) {
+                        System.out.println("Você encontra um " + inimigoAtual.getNome() + "! Você precisa derrotá-lo para prosseguir.");
+                        descricaoAmbiente(); 
+                    }
+                }
             
-            descricaoAmbiente();
-        
+            }else{
+                if(proximoAmbiente.estaTrancado()==false){
+                    ambienteAtual = proximoAmbiente;
+                    descricaoAmbiente();
+                }else{
+                    System.out.println("O ambiente está trancado! Você precisa de uma " + proximoAmbiente.getChave() + " para destrancá-lo.");
+                    descricaoAmbiente();
+                }
+            }
+            
             // Verifica se o jogador chegou à saída (ambiente final)
             if(ambienteAtual.getDescricao().equals("na saída.")) {
                 System.out.println("Você conseguiu escapar! Parabéns!");
                 System.out.println("Obrigado por jogar. Ate mais!");
-                System.exit(0);                                             // Revisar esse
+                System.exit(0);                                             
             }
-        
         }
-    } 
+        
+    }
+
 
     private void descricaoAmbiente() {
         System.out.println("Você está " + ambienteAtual.getDescricao());
@@ -233,6 +292,10 @@ public class Jogo
                 System.out.print("oeste ");
             }
             System.out.println();
+
+            if (ambienteAtual.getItem() != null) {
+                System.out.println("Há um item no ambiente: " + ambienteAtual.getItem().getNome());
+            }
     }
 
     /** 
@@ -251,4 +314,75 @@ public class Jogo
         }
     }
 
+    private void lidarComInimigos() {
+        if (ambienteAtual.getInimigo() != null) {
+            Inimigo inimigoAtual = ambienteAtual.getInimigo();
+            if(personagem.possuiItem(inimigoAtual.getItemDerrotar())){
+                System.out.println("Você derrotou o " + inimigoAtual.getNome() + " com " + inimigoAtual.getItemDerrotar().getNome() + "!");
+                
+                personagem.removerItem(inimigoAtual.getItemDerrotar());
+                ambienteAtual.removerInimigo(inimigoAtual);
+                ambienteSeguro = true;
+                descricaoAmbiente(); 
+            }else{
+                System.out.println("Você não possui o item necessário para derrotar o " + inimigoAtual.getNome() + "!");
+            }
+        } else {
+            System.out.println("Não há inimigos para atacar!");
+        }
+    }
+
+    private void pegarItem(){
+        if (ambienteAtual.getItem() != null) {
+                Item itemAtual = ambienteAtual.getItem();
+                personagem.adicionarItem(itemAtual);
+                ambienteAtual.removerItem();
+                System.out.println("Você pegou o item: " + itemAtual.getNome());
+                System.out.println(itemAtual.getDescricao());
+                descricaoAmbiente();
+            } else {
+                System.out.println("Não há itens para pegar!");
+            }
+    }
+
+ public void usarItem() {
+    if (personagem.getInventario().size() > 0) {
+        System.out.println("Você possui os seguintes itens: ");
+        for (Item item : personagem.getInventario()) {
+            System.out.println(item.getNome());
+        }
+
+        System.out.println("Digite o nome do item que deseja usar: ");
+        Scanner entrada = new Scanner(System.in);
+        String nomeItem = entrada.nextLine();
+
+        for (Item item : personagem.getInventario()) {
+            if (item.getNome().equals(nomeItem)) {
+                if (ambienteAtual.saidaNorte != null) {
+                    ambienteAtual.saidaNorte.destrancarAmbiente(nomeItem);
+                }
+                if (ambienteAtual.saidaLeste != null) {
+                    ambienteAtual.saidaLeste.destrancarAmbiente(nomeItem);
+                }
+                if (ambienteAtual.saidaSul != null) {
+                    ambienteAtual.saidaSul.destrancarAmbiente(nomeItem);
+                }
+                if (ambienteAtual.saidaOeste != null) {
+                    ambienteAtual.saidaOeste.destrancarAmbiente(nomeItem);
+                }
+
+                // Remover o item do inventário após ser utilizado
+                personagem.removerItem(item);
+
+                System.out.println("Você usou a " + nomeItem + " para destrancar o ambiente.");
+                descricaoAmbiente();
+                return;
+            }
+        }
+
+        System.out.println("Item não encontrado no inventário.");
+    } else {
+        System.out.println("Você não possui itens!");
+    }
+}
 }

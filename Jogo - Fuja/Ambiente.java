@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 /**
  * Classe Ambiente - um ambiente em um jogo adventure.
  *
@@ -15,14 +13,20 @@ import java.util.ArrayList;
  * @author  Michael Kölling and David J. Barnes (traduzido por Julio Cesar Alves)
  * @version 2011.07.31 (2016.02.01)
  */
-public class Ambiente 
+import java.util.ArrayList;
+
+ public class Ambiente 
 {
     public String descricao;
     public Ambiente saidaNorte;
     public Ambiente saidaSul;
     public Ambiente saidaLeste;
     public Ambiente saidaOeste;
-     private ArrayList<Item> itens = new ArrayList<>();
+    private boolean ambienteTrancado;
+    private String chave;
+
+    private ArrayList<Inimigo> inimigos;
+    private Item item;
 
     /**
      * Cria um ambiente com a "descricao" passada. Inicialmente, ele
@@ -35,11 +39,11 @@ public class Ambiente
      */
     public Ambiente(String descricao) 
     {
+        this.inimigos = new ArrayList<>();
         this.descricao = descricao;
-    }
-    public Ambiente(String descricao, Item item){
-        this(descricao);
-        this.itens.add(item);
+        this.ambienteTrancado = false;
+        this.chave = "";
+
     }
 
     /**
@@ -50,8 +54,9 @@ public class Ambiente
      * @param sul A saida sul.
      * @param oeste A saida oeste.
      */
-    public void ajustarSaidas(Ambiente norte, Ambiente leste, Ambiente sul, Ambiente oeste) 
-    {
+    public void ajustarSaidas(Ambiente norte, Ambiente leste, Ambiente sul, Ambiente oeste) {
+    
+
         if(norte != null)
             saidaNorte = norte;
         if(leste != null)
@@ -60,7 +65,8 @@ public class Ambiente
             saidaSul = sul;
         if(oeste != null)
             saidaOeste = oeste;
-    }
+        }
+    
 
     /**
      * @return A descricao do ambiente.
@@ -70,14 +76,52 @@ public class Ambiente
         return descricao;
     }
 
+    public Inimigo getInimigo() {
+        if (inimigos.size() == 0) {
+            return null;
+        }
+        return inimigos.get(0);  // Retorna o primeiro inimigo da lista (assumindo apenas um inimigo por ambiente)
+    }
+    
+    public void removerInimigo(Inimigo inimigo) {
+        // Lógica para remover o inimigo do ambiente
+        this.inimigos = new ArrayList<>();
+    }
 
-    public boolean temItem(){//Verifica se tem item no ambiente
-        if (this.itens.size() >0 ){
-            return true;
-        }else{
-            return false;
+    public void adicionarInimigo(Inimigo inimigo) {
+        inimigos.add(inimigo);
+    }
+
+    public void adicionarItem(Item item) {
+        this.item = item;
+    }
+
+    public void removerItem() {
+        this.item = null;
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public void trancarAmbiente(String chave) {
+        this.ambienteTrancado = true;
+        this.chave = chave;
+    }
+
+    public void destrancarAmbiente(String chave) {
+        if (this.chave.equals(chave)) {
+            this.ambienteTrancado = false;
+            System.out.println("O ambiente foi destrancado.");
         }
     }
 
+    public boolean estaTrancado() {
+        return this.ambienteTrancado;
+    }
+
+    public String getChave() {
+        return chave;
+    }
 
 }

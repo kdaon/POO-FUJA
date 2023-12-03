@@ -2,55 +2,33 @@
  * A classe Personagem representa o jogador do jogo.
  * A classe Personagem tem atributos estáticos que pertencem à classe como um todo.
 */
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class Personagem {
-    private String nome;
-    private String descricao;
-    private int vida;
+    private List<Item> inventario;
 
-    public Personagem(String nome, String descricao, int vida) {
-        this.nome = nome;
-        this.descricao = descricao;
-        this.vida = vida;
+    public Personagem() {
+        this.inventario = new ArrayList<>();  // Inicializa o inventário
     }
 
-    public void restaurarVida() {
-        vida = 100;
+    public void adicionarItem(Item item) {
+        inventario.add(item);
     }
 
-    public Personagem(String nome, int vida) {
-        this.nome = nome;
-        this.vida = vida;
+    public void removerItem(Item item) {
+        inventario.remove(item);
     }
 
-    public String getNome() {
-        return nome;
+    public List<Item> getInventario() {
+        return Collections.unmodifiableList(inventario);
     }
 
-    public int getVida() {
-        return vida;
+    public boolean possuiItem(Item item) {
+        // Implemente a lógica para verificar se o personagem possui o item
+        // Retorna true se o personagem possuir o item, false caso contrário
+        return inventario.contains(item);
     }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public boolean eleFala() {
-        return false;
-    }
-
-    public boolean estaVivo() {
-        if (vida > 0) {
-            return true;
-        } else {
-            return false;
-        }
-
-    }
-
-    public boolean foiAtacado(int dano) {
-        vida -= dano;
-        return true;
-    }
-
     
 }
