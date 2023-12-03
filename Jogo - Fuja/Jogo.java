@@ -1,19 +1,9 @@
 
 /**
- *  Essa eh a classe principal da aplicacao "World of Zull".
- *  "World of Zuul" eh um jogo de aventura muito simples, baseado em texto.
- *  Usuarios podem caminhar em um cenario. E eh tudo! Ele realmente
- *  precisa ser estendido para fazer algo interessante!
+ *  Essa classe cria e inicializa todas as demais classes do jogo, e foi feita com base no codigo base do jogo World of Zuul, de  Michael Kölling and David J. Barnes (traduzido por Julio Cesar Alves)
+ *  
+ * @author  Alexandra Melo, 
  * 
- *  Para jogar esse jogo, crie uma instancia dessa classe e chame o metodo
- *  "jogar".
- * 
- *  Essa classe principal cria e inicializa todas as outras: ela cria os
- *  ambientes, cria o analisador e comeca o jogo. Ela tambeme avalia e 
- *  executa os comandos que o analisador retorna.
- * 
- * @author  Michael Kölling and David J. Barnes (traduzido por Julio Cesar Alves)
- * @version 2011.07.31 (2016.02.01)
  */
 import java.util.Scanner;
 
