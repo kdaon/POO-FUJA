@@ -1,8 +1,9 @@
-/*
+/**
+ * A classe Gui é responsável por criar e controlar a interface gráfica do jogo.
+ * Ela utiliza componentes Swing para criar uma janela com áreas de texto, input de comandos,
+ * botão de confirmação, entre outros elementos, para interagir com o jogador durante o jogo.
+ * Implementa a interface ActionListener para lidar com eventos de ação, como clicar no botão "OK".
  * @author Alexandra Melo
- * 
- * Esta classe implementa a inteface gráfica do usuário
- * 
  */
 
 import java.util.*;
