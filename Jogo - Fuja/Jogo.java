@@ -216,13 +216,14 @@ public class Jogo
      * Aqui nos imprimimos algo bobo e enigmatico e a lista de 
      * palavras de comando
      */
-    private void imprimirAjuda() 
+    
+     private void imprimirAjuda() 
     {
         System.out.println("Você está ouvindo sons estranhos e não sabe o que fazer...");
         System.out.println("Hora de tomar uma decisão!.");
         System.out.println();
         System.out.println("Suas palavras de comando são:");
-        System.out.println("   ir sair ajuda atacar pegar");
+        System.out.println("   ir sair ajuda atacar pegar usar");
     }
 
     /** 
