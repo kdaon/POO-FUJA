@@ -178,14 +178,17 @@ public class Gui implements ActionListener {
      * Esse metodo realiza a leitura do arquivo texto que guarda a quantidade de
      * movimentos restantes que o usuario possui
      * 
+     * @param Embora o metodo nao possua parametro, é preciso passar a raiz do
+     * caminho em que se encontra o arquivo movimentos.txt na variavel caminho
+     * 
      */
     public String leArquivoMovimentos() {
         BufferedReader arq = null;
         String conteudo = "";
+        String caminho = "/Users/alexandramelo/Documents/POO-FUJA/Jogo - Fuja/movimentos.txt";
 
         try {
-            arq = new BufferedReader(new FileReader(
-                    "/Users/alexandramelo/Documents/interface-grafica-PPOO/interface/src/movimentos.txt"));
+            arq = new BufferedReader(new FileReader(caminho));
             conteudo = arq.readLine();
 
             if (conteudo.equals("")) {

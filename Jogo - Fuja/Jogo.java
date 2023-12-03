@@ -2,10 +2,13 @@
 /**
  *  Essa classe cria e inicializa todas as demais classes do jogo, e foi feita com base no codigo base do jogo World of Zuul, de  Michael Kölling and David J. Barnes (traduzido por Julio Cesar Alves)
  *  
+ * Observação sobre a classe insereQtdMovimentosArq: deve ser passado na variavel caminho o caminho onde se deseja criar o arquivo na maquina que esta rodando o jogo
+ * 
  * @author  Alexandra Melo, 
  * 
  */
 import java.util.Scanner;
+import java.io.*;
 
 public class Jogo {
     private Analisador analisador;
@@ -24,6 +27,7 @@ public class Jogo {
         ambienteSeguro = true;
         analisador = new Analisador();
         personagem = new Personagem();
+
     }
 
     /**
@@ -104,6 +108,41 @@ public class Jogo {
         ambienteAtual = quarto; // o jogo comeca no quarto
     }
 
+    /*
+     * 
+     * Realiza a escrita da quantidade de movimentos atual no arquivo texto para que
+     * a interface possa mostrar na tela para o usuario quantos movimentos restantes
+     * ele possui
+     * 
+     * @param Embora o metodo nao possua parametro, é preciso passar a raiz do
+     * caminho em que se deseja criar o arquivo movimentos.
+     * 
+     */
+
+    public void insereQtdMovimentosArq() {
+        String caminho = "/Users/alexandramelo/Documents/POO-FUJA/Jogo - Fuja/movimentos.txt";
+        BufferedWriter bw = null;
+        try {
+            FileWriter arq = new FileWriter(caminho, false);
+
+            bw = new BufferedWriter(arq);
+
+            bw.write(Integer.toString(qtdMovimentos));
+
+        } catch (IOException e) {
+            System.out.println("ERRO na escrita do arquivo");
+        } finally {
+            if (bw != null) {
+                try {
+                    bw.close();
+                } catch (IOException e) {
+                    System.out.println("Nao foi possivel fechar o escritor de arquivo");
+                }
+
+            }
+        }
+    }
+
     /**
      * Rotina principal do jogo. Fica em loop ate terminar o jogo.
      */
@@ -121,6 +160,8 @@ public class Jogo {
             qtdMovimentos = 20;
             System.out.println("Atençao! Você só pode se mover 20 vezes pelo mapa!");
         }
+
+        insereQtdMovimentosArq();
 
         // Entra no loop de comando principal. Aqui nos repetidamente lemos
         // comandos e os executamos ate o jogo terminar.
@@ -202,6 +243,7 @@ public class Jogo {
         } else if (palavraDeComando.equals("ir")) {
 
             qtdMovimentos--;
+            insereQtdMovimentosArq();
 
             if (ambienteSeguro) {
                 irParaAmbiente(comando);
