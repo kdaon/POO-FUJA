@@ -1,5 +1,7 @@
 /**
  * Classe que representa um objeto do jogo.
+ * Cada objeto possui um nome e uma descrição.
+ * 
  * @author Gabriela Memento
  */
 public class ObjetoDoJogo {
