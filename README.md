@@ -23,9 +23,9 @@ Java
 
 <br>
 
-### Autores
-Alexandra Melo
-Gabriela Memento
-Olivia Campos
-
+### Alunos responsáveis
+  
+   <a href="https://github.com/alexandra-melo" target="_blank">Alexandra Melo</a><br>
+   <a href="https://github.com/GabrielaMemento" target="_blank">Gabriela Memento</a><br>
+   <a href="https://github.com/kdaon" target="_blank">Olivia Campos</a>
 
