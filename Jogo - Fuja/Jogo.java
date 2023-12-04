@@ -112,9 +112,6 @@ public class Jogo {
      * a interface possa mostrar na tela para o usuario quantos movimentos restantes
      * ele possui
      * 
-     * @param Embora o metodo nao possua parametro, é preciso passar a raiz do
-     * caminho em que se deseja criar o arquivo movimentos.
-     * 
      */
 
     public void insereQtdMovimentosArq() {
