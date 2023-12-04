@@ -2,6 +2,8 @@
  * A classe Personagem representa o jogador do jogo.
  * A classe Personagem tem atributos estáticos que pertencem à classe como um todo.
  * A classe Personagem representa um personagem do jogo que possui um inventário de itens.
+ * 
+ * @author Olivia Campos
 */
 
 
