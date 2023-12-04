@@ -185,7 +185,7 @@ public class Gui implements ActionListener {
     public String leArquivoMovimentos() {
         BufferedReader arq = null;
         String conteudo = "";
-        String caminho = "/Users/alexandramelo/Documents/POO-FUJA/Jogo - Fuja/movimentos.txt";
+        String caminho = "movimentos.txt";
 
         try {
             arq = new BufferedReader(new FileReader(caminho));

@@ -118,7 +118,7 @@ public class Jogo {
      */
 
     public void insereQtdMovimentosArq() {
-        String caminho = "/Users/alexandramelo/Documents/POO-FUJA/Jogo - Fuja/movimentos.txt";
+        String caminho = "movimentos.txt";
         BufferedWriter bw = null;
         try {
             FileWriter arq = new FileWriter(caminho, false);
