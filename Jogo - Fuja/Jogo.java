@@ -277,7 +277,7 @@ public class Jogo {
         System.out.println();
         System.out.println("Suas palavras de comando são:");
         System.out.println("   ir sair ajuda atacar pegar" + "\n");
-        System.out.println("Lembre-se, para sua segurança não entre num ambiente com um zumbi sem um item para derrotá-lo!");
+        System.out.println("Lembre-se, para sua segurança, não é possível entrar num ambiente com um zumbi sem um item para derrotá-lo!");
     }
 
     /**
@@ -316,10 +316,8 @@ public class Jogo {
                 }
 
             } else {
-                if (proximoAmbiente.estaTrancado() == false) {
-                    ambienteAtual = proximoAmbiente;
-                    descricaoAmbiente();
-                }
+                ambienteAtual = proximoAmbiente;
+                descricaoAmbiente();
             }
 
             // Verifica se o jogador chegou à saída (ambiente final)
