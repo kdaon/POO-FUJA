@@ -22,7 +22,6 @@ import java.util.HashMap;
     public String descricao;
     
     private boolean ambienteTrancado;
-    private String chave;
     private ArrayList<Inimigo> inimigos;
     private Item item;
 
@@ -40,7 +39,6 @@ import java.util.HashMap;
         this.inimigos = new ArrayList<>();
         this.descricao = descricao;
         this.ambienteTrancado = false;
-        this.chave = "";
         saidas = new HashMap<String, Ambiente>();
 
     }
@@ -69,6 +67,13 @@ import java.util.HashMap;
         return descricao;
     }
 
+    // Verifica se o ambiente está trancado
+    public boolean estaTrancado() {
+        return this.ambienteTrancado;
+    }
+
+    // Lidar com inimigos no ambiente 
+
     public Inimigo getInimigo() {
         if (inimigos.size() == 0) {
             return null;
@@ -85,6 +90,9 @@ import java.util.HashMap;
         inimigos.add(inimigo);
     }
 
+
+    // Lidar com itens no ambiente
+
     public void adicionarItem(Item item) {
         this.item = item;
     }
@@ -97,24 +105,5 @@ import java.util.HashMap;
         return item;
     }
 
-    public void trancarAmbiente(String chave) {
-        this.ambienteTrancado = true;
-        this.chave = chave;
-    }
-
-    public void destrancarAmbiente(String chave) {
-        if (this.chave.equals(chave)) {
-            this.ambienteTrancado = false;
-            System.out.println("O ambiente foi destrancado.");
-        }
-    }
-
-    public boolean estaTrancado() {
-        return this.ambienteTrancado;
-    }
-
-    public String getChave() {
-        return chave;
-    }
 
 }

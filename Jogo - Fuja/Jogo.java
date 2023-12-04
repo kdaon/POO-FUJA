@@ -38,7 +38,7 @@ public class Jogo {
         Item taco = new Item("Taco de Beisebol", "Pode ser utilizado para atacar inimigos.");
         Item faca = new Item("Faca", "Pode ser utilizado para atacar inimigos.");
         Item arma = new Item("Arma", "Pode ser utilizado para atacar inimigos.");
-        Item chave = new Item("Chave da cozinha", "Pode ser usada para destrancar a cozinha.");
+        Item estilingue = new Item("Estilingue", "Pode ser utilizado para atacar inimigos.");
 
         // cria os inimigos
         Inimigo zumbiCopa = new Inimigo("Zumbi da Copa",
@@ -47,6 +47,8 @@ public class Jogo {
                 faca);
         Inimigo zumbiHall = new Inimigo("Zumbi do Hall",
                 "Zumbi muito forte, parece que só pode ser derrotado por uma arma de fogo", arma);
+        Inimigo zumbiCozinha = new Inimigo("Zumbi da Cozinha",
+                "Zumbi está distraído comendo, você pode derrotá-lo com o estilingue", estilingue);
 
         // cria os ambientes
         quarto = new Ambiente("no quarto.");
@@ -64,15 +66,13 @@ public class Jogo {
         copa.adicionarInimigo(zumbiCopa);
         sala.adicionarInimigo(zumbiSala);
         hall.adicionarInimigo(zumbiHall);
+        cozinha.adicionarInimigo(zumbiCozinha);
 
         // coloca os itens nos ambientes
         quarto.adicionarItem(taco);
         cozinha.adicionarItem(faca);
         garagem.adicionarItem(arma);
-        banheiro.adicionarItem(chave);
-
-        // trancar ambientes
-        cozinha.trancarAmbiente("Chave da cozinha");
+        banheiro.adicionarItem(estilingue);
 
         // inicializa as saidas dos ambientes
         quarto.ajustarSaidas("norte", corredor);
@@ -258,9 +258,6 @@ public class Jogo {
 
         } else if (palavraDeComando.equals("atacar")) {
             lidarComInimigos();
-
-        } else if (palavraDeComando.equals("usar")) {
-            usarItem();
         }
 
         return querSair;
@@ -279,7 +276,8 @@ public class Jogo {
         System.out.println("Hora de tomar uma decisão!.");
         System.out.println();
         System.out.println("Suas palavras de comando são:");
-        System.out.println("   ir sair ajuda atacar pegar usar");
+        System.out.println("   ir sair ajuda atacar pegar" + "\n");
+        System.out.println("Lembre-se, para sua segurança não entre num ambiente com um zumbi sem um item para derrotá-lo!");
     }
 
     /**
@@ -320,10 +318,6 @@ public class Jogo {
             } else {
                 if (proximoAmbiente.estaTrancado() == false) {
                     ambienteAtual = proximoAmbiente;
-                    descricaoAmbiente();
-                } else {
-                    System.out.println("O ambiente está trancado! Você precisa de uma " + proximoAmbiente.getChave()
-                            + " para destrancá-lo.");
                     descricaoAmbiente();
                 }
             }
@@ -408,43 +402,5 @@ public class Jogo {
         }
     }
 
-    public void usarItem() {
-        if (personagem.getInventario().size() > 0) {
-            System.out.println("Você possui os seguintes itens: ");
-            for (Item item : personagem.getInventario()) {
-                System.out.println(item.getNome());
-            }
-
-            System.out.println("Digite o nome do item que deseja usar: ");
-            Scanner entrada = new Scanner(System.in);
-            String nomeItem = entrada.nextLine();
-
-            for (Item item : personagem.getInventario()) {
-                if (item.getNome().equals(nomeItem)) {
-                    if (ambienteAtual.getSaida("norte") != null) {
-                        ambienteAtual.getSaida("norte").destrancarAmbiente(nomeItem);
-                    }
-                    if (ambienteAtual.getSaida("leste") != null) {
-                        ambienteAtual.getSaida("leste").destrancarAmbiente(nomeItem);
-                    }
-                    if (ambienteAtual.getSaida("sul") != null) {
-                        ambienteAtual.getSaida("sul").destrancarAmbiente(nomeItem);
-                    }
-                    if (ambienteAtual.getSaida("oeste") != null) {
-                        ambienteAtual.getSaida("oeste").destrancarAmbiente(nomeItem);
-                    }
-
-                    // Remover o item do inventário após ser utilizado
-                    System.out.println("Você usou a " + nomeItem + " para destrancar o ambiente.");
-                    personagem.removerItem(item);
-                    descricaoAmbiente();
-                    return;
-                }
-            }
-
-            System.out.println("Item não encontrado no inventário.");
-        } else {
-            System.out.println("Você não possui itens!");
-        }
-    }
+    
 }
