@@ -6,7 +6,6 @@
  * @author Olivia Campos
 */
 
-
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,46 +18,23 @@ public class Personagem {
         this.inventario = new ArrayList<>();  // Inicializa o inventário
     }
 
-    /**
-     * Adiciona um item ao inventário do personagem.
-     *
-     * @param item O item a ser adicionado ao inventário.
-     */
-
+    // Adiciona um item ao inventário
     public void adicionarItem(Item item) {
         inventario.add(item);
     }
 
-     /**
-     * Remove um item do inventário do personagem.
-     *
-     * @param item O item a ser removido do inventário.
-     */
-
+    // Remove um item do inventário
     public void removerItem(Item item) {
         inventario.remove(item);
     }
 
-    /**
-     * Obtém uma lista imutável (não modificável) contendo todos os itens no inventário do personagem.
-     *
-     * @return A lista imutável de itens no inventário do personagem.
-     */
-
+    // Retorna o inventário
     public List<Item> getInventario() {
         return Collections.unmodifiableList(inventario);
     }
-    
-    /**
-     * Verifica se o personagem possui um determinado item no inventário.
-     *
-     * @param item O item a ser verificado se está presente no inventário.
-     * @return true se o personagem possuir o item, false caso contrário.
-     */
 
+    // Verifica se o personagem possui um item
     public boolean possuiItem(Item item) {
-        // Implemente a lógica para verificar se o personagem possui o item
-        // Retorna true se o personagem possuir o item, false caso contrário
         return inventario.contains(item);
     }
     
